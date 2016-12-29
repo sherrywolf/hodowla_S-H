@@ -1,7 +1,6 @@
 package com.example.hodowla.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,8 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="Rasa")
@@ -32,17 +30,6 @@ public class Rasa {
 
     private List<Pies> psy = new ArrayList<Pies>();
 
-    public Rasa() { super(); }
-
-    public Rasa(String nazwa, String opis) {
-        super();
-
-        this.rasa_id = rasa_id;
-        this.nazwa = nazwa;
-        this.opis = opis;
-
-        private List<Pies> psy = new ArrayList<Pies>();
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "rasa_id")
