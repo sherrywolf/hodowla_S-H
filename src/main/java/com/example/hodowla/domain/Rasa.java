@@ -30,6 +30,8 @@ public class Rasa {
     private String nazwa;
     private String opis;
 
+    private List<Pies> psy = new ArrayList<Pies>();
+
     public Rasa() { super(); }
 
     public Rasa(String nazwa, String opis) {
@@ -54,4 +56,12 @@ public class Rasa {
     @Column(name = "opis")
     public String getopis() { return opis; }
     public void setopis(String opis) { this.opis = opis; }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Pies> getPsy() {
+        return psy;
+    }
+    public void setPsy(List<Pies> psy) {
+        this.psy = psy;
+    }
 }
