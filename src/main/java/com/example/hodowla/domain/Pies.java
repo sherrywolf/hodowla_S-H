@@ -19,7 +19,7 @@ public class Pies {
     private String imie;
     private int rok;
     private String dieta;
-    private int rasa_id;
+    private Rasa rasa;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,11 +60,11 @@ public class Pies {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    public int getrasa_id() {
-        return rasa_id;
+    public Rasa getrasa() {
+        return rasa;
     }
 
-    public void setrasa_id(int rasa_id) {
-        this.rasa_id = rasa_id;
+    public void setrasa(Rasa rasa) {
+        this.rasa = rasa;
     }
 }
