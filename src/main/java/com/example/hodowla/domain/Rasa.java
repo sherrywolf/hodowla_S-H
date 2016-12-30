@@ -24,7 +24,7 @@ import javax.persistence.Table;
 
 public class Rasa {
 
-    private int rasa_id;
+    private Long rasa_id;
     private String nazwa;
     private String opis;
 
@@ -33,8 +33,8 @@ public class Rasa {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "rasa_id")
-    public int getrasa_id() { return rasa_id; }
-    public void setrasa_id(int rasa_id) { this.rasa_id = rasa_id; }
+    public Long getrasa_id() { return rasa_id; }
+    public void setrasa_id(Long rasa_id) { this.rasa_id = rasa_id; }
 
     @Column(name = "nazwa", nullable = false, unique = true)
     public String getnazwa() { return  nazwa; }

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 public class Pies {
 
-    private int pies_id;
+    private Long pies_id;
     private String imie;
     private int rok;
     private String dieta;
@@ -24,11 +24,11 @@ public class Pies {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pies_id")
-    public int getpies_id() {
+    public Long getpies_id() {
         return pies_id;
     }
 
-    public void setpies_id(int pies_id) {
+    public void setpies_id(Long pies_id) {
         this.pies_id = pies_id;
     }
 
