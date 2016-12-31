@@ -1,6 +1,5 @@
 package com.example.hodowla.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -27,9 +26,10 @@ public class DaneHibernateImpl implements Dane {
     }
 
     @Override
-    public void addRasa(Rasa rasa) {
+    public int addRasa(Rasa rasa) {
         rasa.setrasa_id(null);
         sessionFactory.getCurrentSession().persist(rasa);
+        return 1;
     }
 
     @Override
