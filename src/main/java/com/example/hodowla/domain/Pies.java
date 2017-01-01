@@ -59,7 +59,7 @@ public class Pies {
         this.dieta = dieta;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Rasa.class)
     public Rasa getrasa() {
         return rasa;
     }

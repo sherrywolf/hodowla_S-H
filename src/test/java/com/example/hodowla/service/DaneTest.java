@@ -2,8 +2,6 @@ package com.example.hodowla.service;
 
 import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.List;
 
 import org.junit.Test;
@@ -19,7 +17,6 @@ import com.example.hodowla.domain.Rasa;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
 
 public class DaneTest {
@@ -38,6 +35,7 @@ public class DaneTest {
     private final static String OPIS_2 = "Wspolczesnie husky syberyjski jest wykorzystywany, tak jak i dawniej, jako pies zaprzegowy, takze jako pies rodzinny.";
 
 
+
     @Test
     public void checkAddRasa(){
 
@@ -51,17 +49,17 @@ public class DaneTest {
         rasa2.setopis(OPIS_2);
 
         assertEquals(1,dane.addRasa(rasa));
-        System.out.println("Rasa " + rasa.getnazwa() + " zostala dodana do bazy.");
+       System.out.println("Rasa " + rasa.getnazwa() + " zostala dodana do bazy.");
 
         List<Rasa> AllRasa = dane.getAllRasa();
         Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
 
         assertEquals(NAME_1, rasadb.getnazwa());
         assertEquals(OPIS_1, rasadb.getopis());
-        System.out.println("Otrzymana rasa z bazy o nazwie: " + rasadb.getnazwa() + " jest poprawna.");
+       System.out.println("Otrzymana rasa z bazy o nazwie: " + rasadb.getnazwa() + " jest poprawna.");
 
         assertEquals(1,dane.addRasa(rasa2));
-        System.out.println("Rasa " + rasa2.getnazwa() + " zostala dodana do bazy.");
+       System.out.println("Rasa " + rasa2.getnazwa() + " zostala dodana do bazy.");
 
         List<Rasa> AllRasa2 = dane.getAllRasa();
         Rasa rasadb2 = AllRasa2.get(dane.getAllRasa().size()-1);

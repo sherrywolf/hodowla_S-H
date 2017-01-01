@@ -2,33 +2,33 @@ package com.example.hodowla.service;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 
 import com.example.hodowla.domain.Pies;
 import com.example.hodowla.domain.Rasa;
 
-@Component
+
+
+@Repository
 @Transactional
 public class DaneHibernateImpl implements Dane {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public int addRasa(Rasa rasa) {
-        rasa.setrasa_id(null);
-        sessionFactory.getCurrentSession().persist(rasa);
+        try{
+            manager.persist(rasa);
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
         return 1;
     }
 
@@ -39,14 +39,14 @@ public class DaneHibernateImpl implements Dane {
 
     @Override
     public void deleteRasa(Rasa rasa) {
-        rasa = (Rasa) sessionFactory.getCurrentSession().get(Rasa.class,
+        /*rasa = (Rasa) sessionFactory.getCurrentSession().get(Rasa.class,
                 rasa.getrasa_id());
 
         for (Pies pies : rasa.getPsy()) {
             pies.setrasa(null);
             sessionFactory.getCurrentSession().update(pies);
         }
-        sessionFactory.getCurrentSession().delete(rasa);
+        sessionFactory.getCurrentSession().delete(rasa); */
     }
 
     @Override

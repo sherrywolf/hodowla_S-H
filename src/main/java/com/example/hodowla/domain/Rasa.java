@@ -44,7 +44,7 @@ public class Rasa {
     public String getopis() { return opis; }
     public void setopis(String opis) { this.opis = opis; }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="Pies")
+    @OneToMany(targetEntity = Pies.class)
     public List<Pies> getPsy() {
         return psy;
     }
