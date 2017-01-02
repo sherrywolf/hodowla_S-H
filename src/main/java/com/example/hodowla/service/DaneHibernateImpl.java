@@ -34,19 +34,31 @@ public class DaneHibernateImpl implements Dane {
 
     @Override
     public List<Rasa> getAllRasa() {
-        return null;
+        List<Rasa> psy = manager.createQuery("Select r From Rasa r", Rasa.class).getResultList();
+        return psy;
     }
 
     @Override
-    public void deleteRasa(Rasa rasa) {
-        /*rasa = (Rasa) sessionFactory.getCurrentSession().get(Rasa.class,
-                rasa.getrasa_id());
+    public int deleteRasa(Rasa rasa) {
+        try{
 
-        for (Pies pies : rasa.getPsy()) {
-            pies.setrasa(null);
-            sessionFactory.getCurrentSession().update(pies);
+            for (Pies pies : rasa.getPsy()) {
+                pies.setrasa(null);
+                manager.merge(pies);
+            }
+
+            manager.remove(rasa);
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
         }
-        sessionFactory.getCurrentSession().delete(rasa); */
+        return 1;
+
+    }
+
+    @Override
+    public int getRasa(Rasa rasa){
+        return 0;
     }
 
     @Override

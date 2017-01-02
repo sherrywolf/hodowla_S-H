@@ -9,7 +9,8 @@ public interface Dane {
 
     int addRasa(Rasa rasa);
     List<Rasa> getAllRasa();
-    void deleteRasa(Rasa rasa);
+    int getRasa(Rasa rasa);
+    int deleteRasa(Rasa rasa);
     Rasa getRasa_ID(Long id);
     void deleteAllRasa();
 

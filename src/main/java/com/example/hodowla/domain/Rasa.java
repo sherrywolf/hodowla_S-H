@@ -17,10 +17,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Rasa")
-@NamedQueries({
-        @NamedQuery(name = "rasa.all", query = "Select r from Rasa r"),
-        @NamedQuery(name = "rasa.byID", query = "Select r from Rasa r where r.id = :rasa_id")
-})
 
 public class Rasa {
 
