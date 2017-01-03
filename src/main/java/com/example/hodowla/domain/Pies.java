@@ -19,15 +19,13 @@ public class Pies {
     private String imie;
     private int rok;
     private String dieta;
+
     private Rasa rasa;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pies_id")
-    public Long getpies_id() {
-        return pies_id;
-    }
-
+    public Long getpies_id() { return pies_id; }
     public void setpies_id(Long pies_id) {
         this.pies_id = pies_id;
     }
@@ -36,7 +34,6 @@ public class Pies {
     public String getimie() {
         return imie;
     }
-
     public void setimie(String imie) {
         this.imie = imie;
     }
@@ -45,7 +42,6 @@ public class Pies {
     public int getrok() {
         return rok;
     }
-
     public void setrok(int rok) {
         this.rok = rok;
     }
@@ -54,7 +50,6 @@ public class Pies {
     public String getdieta() {
         return dieta;
     }
-
     public void setdieta(String dieta) {
         this.dieta = dieta;
     }
@@ -63,8 +58,5 @@ public class Pies {
     public Rasa getrasa() {
         return rasa;
     }
-
-    public void setrasa(Rasa rasa) {
-        this.rasa = rasa;
-    }
+    public void setrasa(Rasa rasa) { this.rasa = rasa; }
 }

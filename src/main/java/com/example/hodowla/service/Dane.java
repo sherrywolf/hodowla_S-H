@@ -9,17 +9,17 @@ public interface Dane {
 
     int addRasa(Rasa rasa);
     List<Rasa> getAllRasa();
-    int getRasa(Rasa rasa);
     int deleteRasa(Rasa rasa);
     Rasa getRasa_ID(Long id);
-    void deleteAllRasa();
+    int deleteAllRasa();
 
-    Long addPies(Pies pies);
+    int addPies(Pies pies);
     List<Pies> getAllPies();
-    List<Pies> getAllPies_idRasa(Pies pies, Rasa rasa);
     Pies getPies_ID(Long id);
-    void deleteAllPies();
-    void deletePies(Pies pies);
-    void deletePiesFromRasa(Rasa rasa);
+    int deleteAllPies();
+    int deletePies(Pies pies);
+
+    List<Pies> getAllPies_idRasa(Rasa rasa);
+    int deletePiesFromRasa(Rasa rasa);
 
 }

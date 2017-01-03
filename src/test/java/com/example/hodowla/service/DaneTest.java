@@ -83,6 +83,6 @@ public class DaneTest {
         Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
         assertEquals(1, dane.deleteRasa(rasadb));
 
-        assertEquals(0, dane.getRasa(rasadb));
+        assertEquals(0, dane.getRasa_ID(rasadb.getrasa_id()));
     }
 }
