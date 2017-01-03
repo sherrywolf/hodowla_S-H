@@ -67,6 +67,27 @@ public class DaneTest {
     }
 
     @Test
+    public void checkAddPies(){
+
+        Rasa rasa = new Rasa();
+        rasa.setnazwa(NAME_1);
+        rasa.setopis(OPIS_1);
+        dane.addRasa(rasa);
+
+        Pies pies = new Pies();
+        pies.setimie(IMIE_1);
+        pies.setrok(ROK_1);
+        pies.setdieta(DIETA_1);
+        pies.setrasa(rasa);
+        dane.addPies(pies);
+
+        assertEquals(rasa.getnazwa(),pies.getrasa().getnazwa());
+        List<Pies> psy = rasa.getPsy();
+        assertEquals(pies.getimie(),psy.get(psy.size()-1).getimie());
+
+    }
+
+    @Test
     public void checkDelRasa(){
 
         Rasa rasa = new Rasa();
@@ -83,6 +104,6 @@ public class DaneTest {
         Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
         assertEquals(1, dane.deleteRasa(rasadb));
 
-        assertEquals(0, dane.getRasa_ID(rasadb.getrasa_id()));
+        assertEquals(null, dane.getRasa_ID(rasadb.getrasa_id()));
     }
 }

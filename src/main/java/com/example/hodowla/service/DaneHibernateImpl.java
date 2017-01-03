@@ -80,6 +80,8 @@ public class DaneHibernateImpl implements Dane {
     public int addPies(Pies pies) {
         try{
             manager.persist(pies);
+            Rasa rasa = pies.getrasa();
+            rasa.getPsy().add(pies);
         }catch(Exception e){
             e.printStackTrace();
             return 0;
