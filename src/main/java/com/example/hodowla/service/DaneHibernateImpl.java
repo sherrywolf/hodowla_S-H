@@ -13,8 +13,6 @@ import javax.persistence.Query;
 import com.example.hodowla.domain.Pies;
 import com.example.hodowla.domain.Rasa;
 
-
-
 @Repository
 @Transactional
 public class DaneHibernateImpl implements Dane {
@@ -59,16 +57,11 @@ public class DaneHibernateImpl implements Dane {
         return manager.find(Rasa.class, id);
     }
 
+
     @Override
-    public int deleteAllRasa() {
+    public int updateRasa(Rasa rasa) {
         try{
-            for(Rasa rasa : getAllRasa()){
-            for (Pies pies : rasa.getPsy()) {
-                pies.setrasa(null);
-                manager.merge(pies);
-            }}
-            Query query = manager.createNativeQuery("DELETE FROM Rasa");
-            query.executeUpdate();
+            manager.merge(rasa);
         }catch(Exception e){
             e.printStackTrace();
             return 0;
@@ -107,10 +100,11 @@ public class DaneHibernateImpl implements Dane {
     }
 
     @Override
-    public int deleteAllPies() {
+    public int deletePies(Pies pies) {
         try{
-            Query query = manager.createNativeQuery("DELETE FROM Pies");
-            query.executeUpdate();
+            Rasa rasa = pies.getrasa();
+            rasa.getPsy().remove(pies);
+            manager.remove(pies);
         }catch(Exception e){
             e.printStackTrace();
             return 0;
@@ -119,9 +113,21 @@ public class DaneHibernateImpl implements Dane {
     }
 
     @Override
-    public int deletePies(Pies pies) {
+    public int updatePies(Pies pies) {
         try{
-            manager.remove(pies);
+            Rasa rasa = pies.getrasa();
+
+            for(Rasa r : getAllRasa()){
+            if(rasa != r){
+                int i = r.getPsy().indexOf(pies);
+                if(i != -1) r.getPsy().remove(pies);
+            }
+        }
+            if(rasa.getPsy().indexOf(pies) == -1)
+            rasa.getPsy().add(pies);
+
+            manager.merge(pies);
+
         }catch(Exception e){
             e.printStackTrace();
             return 0;
@@ -134,6 +140,7 @@ public class DaneHibernateImpl implements Dane {
         try{
             for(Pies pies : rasa.getPsy() ){
                 manager.remove(pies);
+                rasa.getPsy().remove(pies);
             }
         }catch(Exception e){
             e.printStackTrace();

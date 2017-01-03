@@ -11,13 +11,13 @@ public interface Dane {
     List<Rasa> getAllRasa();
     int deleteRasa(Rasa rasa);
     Rasa getRasa_ID(Long id);
-    int deleteAllRasa();
+    int updateRasa(Rasa rasa);
 
     int addPies(Pies pies);
     List<Pies> getAllPies();
     Pies getPies_ID(Long id);
-    int deleteAllPies();
     int deletePies(Pies pies);
+    int updatePies(Pies pies);
 
     List<Pies> getAllPies_idRasa(Rasa rasa);
     int deletePiesFromRasa(Rasa rasa);

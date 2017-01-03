@@ -88,6 +88,34 @@ public class DaneTest {
     }
 
     @Test
+    public void checkupdatePies(){
+        Rasa rasa = new Rasa();
+        rasa.setnazwa(NAME_1);
+        rasa.setopis(OPIS_1);
+        dane.addRasa(rasa);
+
+        Rasa rasa2 = new Rasa();
+        rasa2.setnazwa(NAME_2);
+        rasa2.setopis(OPIS_2);
+        dane.addRasa(rasa2);
+
+        Pies pies = new Pies();
+        pies.setimie(IMIE_1);
+        pies.setrok(ROK_1);
+        pies.setdieta(DIETA_1);
+        pies.setrasa(rasa);
+        dane.addPies(pies);
+
+        pies.setrasa(rasa2);
+        dane.updatePies(pies);
+
+        assertEquals(pies.getrasa(),rasa2);
+        assertEquals(0,rasa2.getPsy().indexOf(pies));
+        assertEquals(-1,rasa.getPsy().indexOf(pies));
+
+    }
+
+    @Test
     public void checkDelRasa(){
 
         Rasa rasa = new Rasa();
