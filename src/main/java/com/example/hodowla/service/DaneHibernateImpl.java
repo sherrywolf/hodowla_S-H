@@ -125,9 +125,7 @@ public class DaneHibernateImpl implements Dane {
         }
             if(rasa.getPsy().indexOf(pies) == -1)
             rasa.getPsy().add(pies);
-
             manager.merge(pies);
-
         }catch(Exception e){
             e.printStackTrace();
             return 0;
@@ -139,8 +137,8 @@ public class DaneHibernateImpl implements Dane {
     public int deletePiesFromRasa(Rasa rasa) {
         try{
             for(Pies pies : rasa.getPsy() ){
-                manager.remove(pies);
                 rasa.getPsy().remove(pies);
+                manager.remove(pies);
             }
         }catch(Exception e){
             e.printStackTrace();
