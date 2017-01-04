@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,76 +40,71 @@ public class DaneTest {
     private final static String NAME_2 = "husky";
     private final static String OPIS_2 = "Wspolczesnie husky syberyjski jest wykorzystywany, tak jak i dawniej, jako pies zaprzegowy, takze jako pies rodzinny.";
 
+    Rasa rasa = new Rasa();
+    Rasa rasa2 = new Rasa();
+    Pies pies = new Pies();
+    Pies pies2 = new Pies();
 
-
-    @Test
-    public void checkAddRasa(){
-        Rasa rasa = new Rasa();
+    @Before
+    public void setUp(){
         rasa.setnazwa(NAME_1);
         rasa.setopis(OPIS_1);
-        Rasa rasa2 = new Rasa();
+
         rasa2.setnazwa(NAME_2);
         rasa2.setopis(OPIS_2);
 
-        assertEquals(1,dane.addRasa(rasa));
-
-        List<Rasa> AllRasa = dane.getAllRasa();
-        Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
-
-        assertEquals(NAME_1, rasadb.getnazwa());
-        assertEquals(OPIS_1, rasadb.getopis());
-
-        assertEquals(1,dane.addRasa(rasa2));
-
-        List<Rasa> AllRasa2 = dane.getAllRasa();
-        Rasa rasadb2 = AllRasa2.get(dane.getAllRasa().size()-1);
-
-        assertEquals(NAME_2, rasadb2.getnazwa());
-        assertEquals(OPIS_2, rasadb2.getopis());
-
-        dane.deleteRasa(rasa);
-        dane.deleteRasa(rasa2);
-    }
-
-    @Test
-    public void checkAddPies(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-
-        Pies pies = new Pies();
         pies.setimie(IMIE_1);
         pies.setrok(ROK_1);
         pies.setdieta(DIETA_1);
         pies.setrasa(rasa);
+
+        pies2.setimie(IMIE_2);
+        pies2.setrok(ROK_2);
+        pies2.setdieta(DIETA_2);
+        pies2.setrasa(rasa);
+
+        dane.addRasa(rasa);
+        dane.addRasa(rasa2);
         dane.addPies(pies);
+        dane.addPies(pies2);
+    }
 
-        List<Rasa> AllRasa = dane.getAllRasa();
-        Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
+    @After
+    public void tearDown(){
+        if(dane.getPies_ID(pies.getpies_id()) != null)
+        dane.deletePies(pies);
+        if(dane.getPies_ID(pies2.getpies_id()) != null)
+        dane.deletePies(pies2);
+        if(dane.getRasa_ID(rasa.getrasa_id()) != null)
+        dane.deleteRasa(rasa);
+        if(dane.getRasa_ID(rasa2.getrasa_id()) != null)
+        dane.deleteRasa(rasa2);
+    }
 
-        List<Pies> AllPies = dane.getAllPies();
-        Pies piesdb = AllPies.get(dane.getAllPies().size()-1);
+    @Test
+    public void checkAddRasa(){
+        Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
+        Rasa rasadb2 = dane.getRasa_ID(rasa2.getrasa_id());
+
+        assertEquals(NAME_1, rasadb.getnazwa());
+        assertEquals(OPIS_1, rasadb.getopis());
+
+        assertEquals(NAME_2, rasadb2.getnazwa());
+        assertEquals(OPIS_2, rasadb2.getopis());
+    }
+
+    @Test
+    public void checkAddPies(){
+        Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
+        Pies piesdb = dane.getPies_ID(pies.getpies_id());
 
         assertEquals(rasadb.getnazwa(),piesdb.getrasa().getnazwa());
         List<Pies> psy = rasadb.getPsy();
-        assertEquals(piesdb.getimie(),psy.get(psy.size()-1).getimie());
-
-        dane.deletePies(pies);
-        dane.deleteRasa(rasa);
+        assertEquals(piesdb.getimie(),psy.get(psy.indexOf(piesdb)).getimie());
     }
 
     @Test
     public void checkupdateRasa(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-        Rasa rasa2 = new Rasa();
-        rasa2.setnazwa(NAME_2);
-        rasa2.setopis(OPIS_2);
-        dane.addRasa(rasa2);
-
         rasa.setnazwa("Zmiana");
         dane.updateRasa(rasa);
 
@@ -115,35 +112,10 @@ public class DaneTest {
         assertEquals("Zmiana",rasadb.getnazwa());
         rasadb = dane.getRasa_ID(rasa2.getrasa_id());
         assertEquals(NAME_2,rasadb.getnazwa());
-
-        dane.deleteRasa(rasa);
-        dane.deleteRasa(rasa2);
     }
 
     @Test
     public void checkupdatePies(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-        Rasa rasa2 = new Rasa();
-        rasa2.setnazwa(NAME_2);
-        rasa2.setopis(OPIS_2);
-        dane.addRasa(rasa2);
-
-        Pies pies = new Pies();
-        pies.setimie(IMIE_1);
-        pies.setrok(ROK_1);
-        pies.setdieta(DIETA_1);
-        pies.setrasa(rasa);
-        dane.addPies(pies);
-        Pies pies2 = new Pies();
-        pies2.setimie(IMIE_2);
-        pies2.setrok(ROK_2);
-        pies2.setdieta(DIETA_2);
-        pies2.setrasa(rasa);
-        dane.addPies(pies2);
-
         pies.setrasa(rasa2);
         dane.updatePies(pies);
 
@@ -153,27 +125,11 @@ public class DaneTest {
         assertEquals(0,rasa2.getPsy().indexOf(piesdb));
         assertEquals(-1,rasa.getPsy().indexOf(piesdb));
         assertEquals(rasa,pies2.getrasa());
-
-        dane.deletePies(pies);
-        dane.deletePies(pies2);
-        dane.deleteRasa(rasa);
-        dane.deleteRasa(rasa2);
     }
 
     @Test
     public void checkDelRasa(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        Rasa rasa2 = new Rasa();
-        rasa2.setnazwa(NAME_2);
-        rasa2.setopis(OPIS_2);
-
-        dane.addRasa(rasa);
-        dane.addRasa(rasa2);
-
-        List<Rasa> AllRasa = dane.getAllRasa();
-        Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
+        Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
         assertEquals(1, dane.deleteRasa(rasadb));
 
         assertEquals(null, dane.getRasa_ID(rasadb.getrasa_id()));
@@ -181,22 +137,9 @@ public class DaneTest {
 
     @Test
     public void checkDelPies(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-
-        Pies pies = new Pies();
-        pies.setimie(IMIE_1);
-        pies.setrok(ROK_1);
-        pies.setdieta(DIETA_1);
-        pies.setrasa(rasa);
-        dane.addPies(pies);
-
         assertEquals(1,dane.deletePies(pies));
 
-        List<Rasa> AllRasa = dane.getAllRasa();
-        Rasa rasadb = AllRasa.get(dane.getAllRasa().size()-1);
+        Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
 
         assertEquals(null,dane.getPies_ID(pies.getpies_id()));
         assertEquals(-1,rasadb.getPsy().indexOf(pies));
@@ -205,40 +148,18 @@ public class DaneTest {
 
     @Test
     public void checkGetRasa_ID(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-
         assertEquals(rasa,dane.getRasa_ID(rasa.getrasa_id()));
         assertEquals(NAME_1,dane.getRasa_ID(rasa.getrasa_id()).getnazwa());
         assertEquals(OPIS_1,dane.getRasa_ID(rasa.getrasa_id()).getopis());
-
-        dane.deleteRasa(rasa);
     }
 
     @Test
     public void checkGetPies_ID(){
-        Rasa rasa = new Rasa();
-        rasa.setnazwa(NAME_1);
-        rasa.setopis(OPIS_1);
-        dane.addRasa(rasa);
-
-        Pies pies = new Pies();
-        pies.setimie(IMIE_1);
-        pies.setrok(ROK_1);
-        pies.setdieta(DIETA_1);
-        pies.setrasa(rasa);
-        dane.addPies(pies);
-
         assertEquals(pies,dane.getPies_ID(pies.getpies_id()));
         assertEquals(IMIE_1,dane.getPies_ID(pies.getpies_id()).getimie());
         assertEquals(ROK_1,dane.getPies_ID(pies.getpies_id()).getrok());
         assertEquals(DIETA_1,dane.getPies_ID(pies.getpies_id()).getdieta());
         assertEquals(rasa,dane.getPies_ID(pies.getpies_id()).getrasa());
-
-        dane.deletePies(pies);
-        dane.deleteRasa(rasa);
     }
 
     @Test

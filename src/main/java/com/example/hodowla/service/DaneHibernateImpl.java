@@ -103,6 +103,7 @@ public class DaneHibernateImpl implements Dane {
     public int deletePies(Pies pies) {
         try{
             Rasa rasa = pies.getrasa();
+            if(rasa != null)
             rasa.getPsy().remove(pies);
             manager.remove(pies);
         }catch(Exception e){
