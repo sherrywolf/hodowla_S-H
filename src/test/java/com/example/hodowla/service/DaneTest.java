@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -26,6 +27,8 @@ public class DaneTest {
 
     @Autowired
     Dane dane;
+
+    private static final boolean bool = true;
 
     private final static String IMIE_1 = "Puszek";
     private final static int ROK_1 = 2010;
@@ -105,6 +108,8 @@ public class DaneTest {
         dane.deleteRasa(rasa2);
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkAddRasa(){
         Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
@@ -117,6 +122,8 @@ public class DaneTest {
         assertEquals(OPIS_2, rasadb2.getopis());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkAddPies(){
         Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
@@ -127,6 +134,8 @@ public class DaneTest {
         assertEquals(piesdb.getimie(),psy.get(psy.indexOf(piesdb)).getimie());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkupdateRasa(){
         rasa.setnazwa("Zmiana");
@@ -138,6 +147,8 @@ public class DaneTest {
         assertEquals(NAME_2,rasadb.getnazwa());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkupdatePies(){
         pies.setrasa(rasa2);
@@ -155,6 +166,8 @@ public class DaneTest {
         assertEquals(rasa,pies2.getrasa());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkDelRasa(){
         Rasa rasadb = dane.getRasa_ID(rasa.getrasa_id());
@@ -163,6 +176,8 @@ public class DaneTest {
         assertEquals(null, dane.getRasa_ID(rasadb.getrasa_id()));
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkDelPies(){
         assertEquals(1,dane.deletePies(pies));
@@ -174,6 +189,8 @@ public class DaneTest {
 
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkGetRasa_ID(){
         assertEquals(rasa,dane.getRasa_ID(rasa.getrasa_id()));
@@ -181,6 +198,8 @@ public class DaneTest {
         assertEquals(OPIS_1,dane.getRasa_ID(rasa.getrasa_id()).getopis());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkGetPies_ID(){
         assertEquals(pies,dane.getPies_ID(pies.getpies_id()));
@@ -190,11 +209,15 @@ public class DaneTest {
         assertEquals(rasa,dane.getPies_ID(pies.getpies_id()).getrasa());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkGetRasa_Nazwa(){
         assertEquals(rasa,dane.getRasa_Nazwa(rasa.getnazwa()));
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkGetPies_Imie(){
         int sizebefore = dane.getPies_Imie(pies.getimie()).size();
@@ -206,6 +229,8 @@ public class DaneTest {
         assertEquals(pies.getimie(),pies3.getimie());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkGetAllPies_idRasa(){
         List<Pies> psy = new ArrayList<Pies>();
@@ -217,6 +242,8 @@ public class DaneTest {
         assertEquals(dane.getAllPies_idRasa(rasa).size(),psy.size());
     }
 
+    @Transactional
+    @Rollback(value = bool)
     @Test
     public void checkDelPiesFromRasa(){
         dane.deletePiesFromRasa(rasa);
