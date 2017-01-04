@@ -2,6 +2,7 @@ package com.example.hodowla.service;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -34,6 +35,10 @@ public class DaneTest {
     private final static int ROK_2 = 2009;
     private final static String DIETA_2 = "Royal Canin";
 
+    private final static String IMIE_3 = "Lola";
+    private final static int ROK_3 = 2015;
+    private final static String DIETA_3 = "Josera Knuspies";
+
     private final static String NAME_1 = "dalmatynczyk";
     private final static String OPIS_1 = "Jest to pies odwazny, czujny, zrownowazony. Wykazuje wysoki stopien przywiazania do czlonkow rodziny. Aktywny i towarzyski. Dalmatynczyk nie jest psem odpowiednim dla malo ruchliwych osob";
 
@@ -44,6 +49,7 @@ public class DaneTest {
     Rasa rasa2 = new Rasa();
     Pies pies = new Pies();
     Pies pies2 = new Pies();
+    Pies pies3 = new Pies();
 
     @Before
     public void setUp(){
@@ -63,10 +69,26 @@ public class DaneTest {
         pies2.setdieta(DIETA_2);
         pies2.setrasa(rasa);
 
-        dane.addRasa(rasa);
-        dane.addRasa(rasa2);
-        dane.addPies(pies);
-        dane.addPies(pies2);
+        pies3.setimie(IMIE_3);
+        pies3.setrok(ROK_3);
+        pies3.setdieta(DIETA_3);
+        pies3.setrasa(rasa2);
+
+        if(dane.getAllRasa().indexOf(rasa) == -1) {
+            dane.addRasa(rasa);
+        }
+        if(dane.getAllRasa().indexOf(rasa2) == -1) {
+            dane.addRasa(rasa2);
+        }
+        if(dane.getAllPies().indexOf(pies) == -1) {
+            dane.addPies(pies);
+        }
+        if(dane.getAllPies().indexOf(pies2) == -1) {
+            dane.addPies(pies2);
+        }
+        if(dane.getAllPies().indexOf(pies3) == -1) {
+            dane.addPies(pies3);
+        }
     }
 
     @After
@@ -75,6 +97,8 @@ public class DaneTest {
         dane.deletePies(pies);
         if(dane.getPies_ID(pies2.getpies_id()) != null)
         dane.deletePies(pies2);
+        if(dane.getPies_ID(pies3.getpies_id()) != null)
+        dane.deletePies(pies3);
         if(dane.getRasa_ID(rasa.getrasa_id()) != null)
         dane.deleteRasa(rasa);
         if(dane.getRasa_ID(rasa2.getrasa_id()) != null)
@@ -122,7 +146,11 @@ public class DaneTest {
         Pies piesdb = dane.getPies_ID(pies.getpies_id());
 
         assertEquals(piesdb.getrasa(),rasa2);
-        assertEquals(0,rasa2.getPsy().indexOf(piesdb));
+
+        if(rasa2.getPsy().indexOf(piesdb)>-1) {
+            assertEquals(1, 1);
+        }else assertEquals(1,0);
+        
         assertEquals(-1,rasa.getPsy().indexOf(piesdb));
         assertEquals(rasa,pies2.getrasa());
     }
@@ -163,12 +191,39 @@ public class DaneTest {
     }
 
     @Test
-    public void checkGetAllPies_idRasa(){
+    public void checkGetRasa_Nazwa(){
+        assertEquals(rasa,dane.getRasa_Nazwa(rasa.getnazwa()));
+    }
 
+    @Test
+    public void checkGetPies_Imie(){
+        int sizebefore = dane.getPies_Imie(pies.getimie()).size();
+
+        pies3.setimie(pies.getimie());
+        dane.updatePies(pies3);
+
+        assertEquals(sizebefore + 1,dane.getPies_Imie(pies.getimie()).size());
+        assertEquals(pies.getimie(),pies3.getimie());
+    }
+
+    @Test
+    public void checkGetAllPies_idRasa(){
+        List<Pies> psy = new ArrayList<Pies>();
+
+        for(Pies pies : dane.getAllPies()){
+            if(pies.getrasa() == rasa)
+                psy.add(pies);
+        }
+        assertEquals(dane.getAllPies_idRasa(rasa).size(),psy.size());
     }
 
     @Test
     public void checkDelPiesFromRasa(){
+        dane.deletePiesFromRasa(rasa);
 
+        assertEquals(0,dane.getAllPies_idRasa(rasa).size());
+        assertEquals(null,dane.getPies_ID(pies.getpies_id()));
+        assertEquals(null,dane.getPies_ID(pies2.getpies_id()));
+        assertEquals(pies3,dane.getPies_ID(pies3.getpies_id()));
     }
 }
