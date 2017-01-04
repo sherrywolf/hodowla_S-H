@@ -70,6 +70,12 @@ public class DaneHibernateImpl implements Dane {
     }
 
     @Override
+    public Rasa getRasa_Nazwa(String nazwa) {
+        Rasa rasa = manager.createQuery("Select r From Rasa r where r.nazwa like :nazwa", Rasa.class).setParameter("nazwa", nazwa).getSingleResult();
+        return rasa;
+    }
+
+    @Override
     public int addPies(Pies pies) {
         try{
             manager.persist(pies);
@@ -135,11 +141,19 @@ public class DaneHibernateImpl implements Dane {
     }
 
     @Override
+    public List<Pies> getPies_Imie(String imie) {
+        List<Pies> psy = manager.createQuery("Select p From Pies p where p.imie like :imie", Pies.class).setParameter("imie", imie).getResultList();
+        return psy;
+    }
+
+    @Override
     public int deletePiesFromRasa(Rasa rasa) {
         try{
-            for(Pies pies : rasa.getPsy() ){
-                rasa.getPsy().remove(pies);
-                manager.remove(pies);
+            for(Pies pies : getAllPies()){
+                if(rasa == pies.getrasa()) {
+                    rasa.getPsy().remove(pies);
+                    manager.remove(pies);
+                }
             }
         }catch(Exception e){
             e.printStackTrace();
